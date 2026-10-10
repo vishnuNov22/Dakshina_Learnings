@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1200" width="900" height="1200" role="img" aria-label="Illustration of a study desk at dawn">
+<defs>
+<linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#16253a"/><stop offset="1" stop-color="#0b1420"/></linearGradient>
+<linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a1a10"/><stop offset="1" stop-color="#140c07"/></linearGradient>
+<radialGradient id="lamp" cx="0.5" cy="0.2" r="0.8"><stop offset="0" stop-color="#ffd9a0" stop-opacity="0.55"/><stop offset="1" stop-color="#ffd9a0" stop-opacity="0"/></radialGradient>
+<linearGradient id="beam" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe2b0" stop-opacity="0.35"/><stop offset="1" stop-color="#ffe2b0" stop-opacity="0"/></linearGradient>
+<filter id="blur"><feGaussianBlur stdDeviation="18"/></filter>
+</defs>
+<rect width="900" height="1200" fill="#0a121d"/>
+<polygon points="0,0 252.00000000000003,0 675.0,760 180.0,760" fill="url(#beam)"/>
+<rect y="760" width="900" height="440" fill="url(#floor)"/>
+<ellipse cx="522.0" cy="820" rx="270.0" ry="80" fill="url(#lamp)" filter="url(#blur)"/>
+<path d="M262.0 800 Q392.0 770 522.0 800 L522.0 960 Q392.0 930 262.0 960 Z" fill="#F5F0E6"/>
+<path d="M522.0 800 Q652.0 770 782.0 800 L782.0 960 Q652.0 930 522.0 960 Z" fill="#EADFC6"/>
+<rect x="292.0" y="820" width="144" height="3" fill="#1f3f63" opacity="0.6"/>
+<rect x="292.0" y="842" width="128" height="3" fill="#1f3f63" opacity="0.6"/>
+<rect x="292.0" y="864" width="197" height="3" fill="#1f3f63" opacity="0.6"/>
+<rect x="292.0" y="886" width="163" height="3" fill="#1f3f63" opacity="0.6"/>
+<rect x="292.0" y="908" width="166" height="3" fill="#1f3f63" opacity="0.6"/>
+<rect x="292.0" y="930" width="154" height="3" fill="#1f3f63" opacity="0.6"/>
+<ellipse cx="652.0" cy="870" rx="28.0" ry="20" fill="none" stroke="#784828" stroke-opacity="0.5"/>
+<ellipse cx="652.0" cy="870" rx="56.0" ry="40" fill="none" stroke="#784828" stroke-opacity="0.5"/>
+<ellipse cx="652.0" cy="870" rx="84.0" ry="60" fill="none" stroke="#784828" stroke-opacity="0.5"/>
+<rect x="72.0" y="764" width="220" height="24" rx="2" fill="#244C76"/>
+<rect x="76.0" y="738" width="208" height="24" rx="2" fill="#8E3935"/>
+<rect x="80.0" y="712" width="196" height="24" rx="2" fill="#2F5D57"/>
+<rect x="84.0" y="686" width="184" height="24" rx="2" fill="#6B4A2E"/>
+<rect x="88.0" y="660" width="172" height="24" rx="2" fill="#B79A62"/>
+<path d="M792.0 780 L792.0 560 L702.0 480" stroke="#2b2b2b" stroke-width="8" fill="none"/><path d="M662.0 460 L732.0 460 L717.0 505 L677.0 505 Z" fill="#244C76"/><circle cx="697.0" cy="510" r="9" fill="#fff1d0"/>
+</svg>
