@@ -6,7 +6,7 @@ export function SectionHeading({
   title,
   lede,
   align = "left",
-  tone = "dark",
+  tone = "light",
   as: Tag = "h2",
   className,
   id,
@@ -15,7 +15,7 @@ export function SectionHeading({
   title: ReactNode;
   lede?: ReactNode;
   align?: "left" | "center";
-  tone?: "dark" | "light";
+  tone?: "light" | "dark";
   as?: "h1" | "h2" | "h3";
   className?: string;
   id?: string;
@@ -23,17 +23,15 @@ export function SectionHeading({
   return (
     <div className={clsx("max-w-3xl", align === "center" && "mx-auto text-center", className)}>
       {eyebrow ? (
-        <p className={clsx("eyebrow mb-5 flex items-center gap-3", align === "center" && "justify-center", tone === "dark" ? "text-gold" : "text-red")}>
-          <span aria-hidden className="h-px w-8 bg-current opacity-60" />
+        <p className={clsx("eyebrow mb-6 flex items-center gap-3", align === "center" && "justify-center", tone === "light" ? "text-brand" : "text-white/80")}>
+          <span aria-hidden className="h-px w-10 bg-current" />
           {eyebrow}
         </p>
       ) : null}
-      <Tag id={id} className="text-step-4">
+      <Tag id={id} className={clsx("text-step-4", tone === "light" ? "text-ink" : "text-white")}>
         {title}
       </Tag>
-      {lede ? (
-        <p className={clsx("mt-6 text-step-1", tone === "dark" ? "text-ivory/70" : "text-ink/70")}>{lede}</p>
-      ) : null}
+      {lede ? <p className={clsx("mt-7 text-step-1", tone === "light" ? "text-ink-soft" : "text-white/75")}>{lede}</p> : null}
     </div>
   );
 }

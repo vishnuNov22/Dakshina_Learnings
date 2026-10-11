@@ -1,8 +1,11 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { stories, type Story } from "@/data/news-sample";
+import { photos } from "@/data/media";
 import { Reveal } from "@/components/ui/Reveal";
 import { PendingNote } from "@/components/ui/PendingNote";
+import { Photo } from "@/components/ui/Photo";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 
 const analysisRows = (s: Story) => [
   { k: "What happened?", v: s.whatHappened },
@@ -13,52 +16,54 @@ const analysisRows = (s: Story) => [
 export function StoryAnalysis({ story, headingLevel = "h3" }: { story: Story; headingLevel?: "h2" | "h3" }) {
   const H = headingLevel;
   return (
-    <article className="grid gap-0 border-t-2 border-ink lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
-      <div className="min-w-0 border-ink/20 py-8 lg:border-r lg:pr-10">
-        <div className="flex flex-wrap items-center gap-3">
-          {story.isSample ? <PendingNote>Format sample · not a news report</PendingNote> : null}
-          {story.subjects.map((s) => (
-            <span key={s} className="rounded-full bg-blue/10 px-3 py-1 font-mono text-[0.65rem] uppercase tracking-[0.14em] text-blue">
-              {s}
-            </span>
-          ))}
+    <article className="overflow-hidden rounded-[28px] bg-white shadow-[0_40px_80px_-50px_rgba(29,11,54,0.45)] ring-1 ring-line">
+      <div className="grid lg:grid-cols-[minmax(0,1.55fr)_minmax(0,1fr)]">
+        <div className="min-w-0 p-6 sm:p-10">
+          <div className="flex flex-wrap items-center gap-2">
+            {story.isSample ? <PendingNote>Format sample · not a news report</PendingNote> : null}
+            {story.subjects.map((s) => (
+              <span key={s} className="rounded-full bg-mist px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-brand-deep">
+                {s}
+              </span>
+            ))}
+          </div>
+          <H className="mt-6 text-step-3 text-ink">{story.headline}</H>
+          <p className="mt-4 text-step-1 text-ink-soft">{story.summary}</p>
+          <dl className="mt-10 grid gap-8 md:grid-cols-3">
+            {analysisRows(story).map((r) => (
+              <div key={r.k} className="min-w-0 border-t-2 border-brand pt-4">
+                <dt className="eyebrow text-brand">{r.k}</dt>
+                <dd className="mt-3 text-[0.95rem] leading-relaxed text-ink-soft">{r.v}</dd>
+              </div>
+            ))}
+          </dl>
+          {story.sourceUrl ? (
+            <p className="mt-6 text-sm text-ink-soft">
+              Source:{" "}
+              <a href={story.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-brand underline">
+                {story.sourceName ?? story.sourceUrl}
+              </a>
+            </p>
+          ) : null}
         </div>
-        <H className="mt-5 text-step-3 text-ink">{story.headline}</H>
-        <p className="mt-4 text-step-1 text-ink/70">{story.summary}</p>
-        <dl className="mt-8 grid gap-6 md:grid-cols-3">
-          {analysisRows(story).map((r) => (
-            <div key={r.k} className="min-w-0 border-t border-ink/20 pt-4">
-              <dt className="font-mono text-[0.68rem] uppercase tracking-[0.16em] text-red">{r.k}</dt>
-              <dd className="mt-2 text-[0.95rem] leading-relaxed text-ink/80">{r.v}</dd>
-            </div>
-          ))}
-        </dl>
-        {story.sourceUrl ? (
-          <p className="mt-6 text-sm text-ink/60">
-            Source:{" "}
-            <a href={story.sourceUrl} target="_blank" rel="noopener noreferrer" className="underline">
-              {story.sourceName ?? story.sourceUrl}
-            </a>
-          </p>
-        ) : null}
+        <aside className="min-w-0 bg-mist p-6 sm:p-10">
+          <p className="eyebrow text-brand-deep">Analytical dimensions</p>
+          <ul className="mt-4 flex flex-wrap gap-2">
+            {story.dimensions.map((d) => (
+              <li key={d} className="rounded-full bg-white px-3.5 py-1.5 text-sm text-ink ring-1 ring-line">{d}</li>
+            ))}
+          </ul>
+          <p className="eyebrow mt-10 text-brand-deep">Answer-writing connections</p>
+          <ol className="mt-4 space-y-4">
+            {story.answerLinks.map((a, n) => (
+              <li key={a} className="flex gap-3 text-[0.95rem] text-ink">
+                <span className="font-serif text-xl italic leading-none text-brand">{n + 1}</span>
+                <span>{a}</span>
+              </li>
+            ))}
+          </ol>
+        </aside>
       </div>
-      <aside className="min-w-0 py-8 lg:pl-10">
-        <p className="font-mono text-[0.68rem] uppercase tracking-[0.16em] text-ink/60">Analytical dimensions</p>
-        <ul className="mt-3 flex flex-wrap gap-2">
-          {story.dimensions.map((d) => (
-            <li key={d} className="rounded-md border border-ink/25 px-2.5 py-1 text-sm text-ink/80">{d}</li>
-          ))}
-        </ul>
-        <p className="mt-8 font-mono text-[0.68rem] uppercase tracking-[0.16em] text-ink/60">Answer-writing connections</p>
-        <ol className="mt-3 space-y-3">
-          {story.answerLinks.map((a, n) => (
-            <li key={a} className="flex gap-3 text-[0.95rem] text-ink/85">
-              <span className="font-hand text-xl leading-none text-red">{n + 1}.</span>
-              <span>{a}</span>
-            </li>
-          ))}
-        </ol>
-      </aside>
     </article>
   );
 }
@@ -66,27 +71,27 @@ export function StoryAnalysis({ story, headingLevel = "h3" }: { story: Story; he
 export function NewsDesk() {
   const story = stories[0]!;
   return (
-    <section aria-labelledby="news-title" className="paper section-y">
+    <section aria-labelledby="news-title" className="section-y bg-white">
       <div className="container-x">
-        <Reveal>
-          <div className="flex flex-col gap-2 border-b-4 border-double border-ink pb-5 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <p className="font-mono text-[0.68rem] uppercase tracking-[0.2em] text-ink/60">Dakshina Learnings · Daily News Desk</p>
-              <h2 id="news-title" className="mt-2 text-step-4 text-ink">
-                The news, <em className="text-red">read for the exam.</em>
-              </h2>
-            </div>
-            <p className="max-w-xs text-sm text-ink/60 sm:text-right">
-              Daily analysis linking headlines to the syllabus — including The Hindu analysis in Malayalam.
-            </p>
-          </div>
-        </Reveal>
-        <Reveal delay={0.1}>
+        <div className="grid items-end gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)]">
+          <SectionHeading
+            id="news-title"
+            eyebrow="Daily News Desk"
+            title={
+              <>
+                The news, <span className="accent">read for the exam.</span>
+              </>
+            }
+            lede="Daily analysis that links headlines to the syllabus, including The Hindu analysis in Malayalam."
+          />
+          <Photo photo={photos.newspaper} sizes="(min-width: 1024px) 40vw, 100vw" parallax={5} className="aspect-[16/10] w-full" />
+        </div>
+        <Reveal className="mt-14">
           <StoryAnalysis story={story} />
         </Reveal>
-        <div className="mt-4 flex flex-col gap-4 border-t border-ink/20 pt-6 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-sm text-ink/60">Ask the academy for the current timing and format of the News Desk.</p>
-          <Link href="/current-affairs" className="inline-flex items-center gap-2 font-semibold text-ink underline-offset-4 hover:underline">
+        <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm text-ink-soft">Ask the academy for the current timing and format of the News Desk.</p>
+          <Link href="/current-affairs" className="inline-flex items-center gap-2 font-semibold text-brand underline-offset-4 hover:underline">
             Visit the News Desk <ArrowRight size={16} aria-hidden />
           </Link>
         </div>

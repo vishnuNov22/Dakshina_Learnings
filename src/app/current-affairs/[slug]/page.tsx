@@ -22,7 +22,6 @@ export default async function StoryPage({ params }: { params: Promise<{ slug: st
   return (
     <>
       <PageHeader
-        tone="paper"
         eyebrow="Daily News Desk"
         title={s.headline}
         crumbs={[
@@ -30,7 +29,7 @@ export default async function StoryPage({ params }: { params: Promise<{ slug: st
           { label: "Analysis", href: `/current-affairs/${s.slug}` },
         ]}
       />
-      <section className="paper pb-[var(--section-y)]">
+      <section className="bg-white pb-[var(--section-y)]">
         <div className="container-x">
           <StoryAnalysis story={s} />
         </div>

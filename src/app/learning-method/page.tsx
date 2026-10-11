@@ -1,4 +1,5 @@
 import { PageHeader } from "@/components/layout/PageHeader";
+import { photos } from "@/data/media";
 import { ActivityLearning } from "@/components/storytelling/ActivityLearning";
 import { EnquiryCta } from "@/components/home/Sections";
 import { Reveal } from "@/components/ui/Reveal";
@@ -22,18 +23,19 @@ export default function LearningMethodPage() {
   return (
     <>
       <PageHeader
+        photo={photos.writingDesk}
         eyebrow="Learning methodology"
-        title={<>Learning by <em className="text-gold-soft">doing.</em></>}
+        title={<>Learning by <span className="accent">doing.</span></>}
         lede="Activity-based learning puts the thinking the examination demands at the centre of every class."
         crumbs={[{ label: "Learning Methodology", href: "/learning-method" }]}
       />
-      <section className="section-y bg-navy-2">
+      <section className="section-y bg-mist">
         <ol className="container-x grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
           {cycle.map((c, i) => (
-            <Reveal as="li" key={c.t} delay={i * 0.06} className="min-w-0 rounded-2xl bg-ivory/[0.04] p-6 ring-1 ring-ivory/10">
-              <p className="font-mono text-xs text-gold">{String(i + 1).padStart(2, "0")}</p>
+            <Reveal as="li" key={c.t} delay={i * 0.06} className="min-w-0 rounded-2xl bg-white p-6 ring-1 ring-line">
+              <p className="font-mono text-xs text-brand">{String(i + 1).padStart(2, "0")}</p>
               <h2 className="mt-4 text-step-3">{c.t}</h2>
-              <p className="mt-3 text-[0.95rem] text-ivory/65">{c.d}</p>
+              <p className="mt-3 text-[0.95rem] text-ink-soft">{c.d}</p>
             </Reveal>
           ))}
         </ol>

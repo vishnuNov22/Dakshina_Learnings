@@ -80,7 +80,7 @@ function Diagram({ kind, reduce }: { kind: Step["diagram"]; reduce: boolean | nu
     : { initial: { pathLength: 0 }, animate: { pathLength: 1 }, transition: { duration: 1.1, ease: [0.22, 1, 0.36, 1] as const } };
   const common = { fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round" as const };
   return (
-    <svg viewBox="0 0 260 150" className="h-auto w-full max-w-[260px] text-red" aria-hidden>
+    <svg viewBox="0 0 260 150" className="h-auto w-full max-w-[260px] text-brand" aria-hidden>
       {kind === "decode" && (
         <>
           <motion.ellipse cx="62" cy="40" rx="50" ry="20" {...common} {...draw} />
@@ -146,34 +146,34 @@ export function ActivityLearning() {
   };
 
   return (
-    <section aria-labelledby="activity-title" className="paper section-y relative overflow-hidden">
+    <section aria-labelledby="activity-title" className="section-y relative overflow-hidden bg-mist">
       <div className="container-x">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.4fr)] lg:gap-16">
           <div className="min-w-0">
-            <p className="eyebrow mb-5 flex items-center gap-3 text-red">
-              <span aria-hidden className="h-px w-8 bg-current opacity-60" />
+            <p className="eyebrow mb-6 flex items-center gap-3 text-brand">
+              <span aria-hidden className="h-px w-10 bg-current" />
               Activity-based learning
             </p>
             <h2 id="activity-title" className="text-step-4">
-              Don&rsquo;t Just Read the News. <em className="text-blue">Learn to Think About It.</em>
+              Don&rsquo;t Just Read the News. <span className="accent">Learn to Think About It.</span>
             </h2>
-            <p className="mt-6 text-step-1 text-ink/70">
+            <p className="mt-6 text-step-1 text-ink-soft">
               Classes at Dakshina are built around doing: decoding questions, mapping dimensions and building answers together. Try one — step through a UPSC-style question below.
             </p>
-            <p className="mt-6 font-mono text-xs text-ink/50">Tip: use ← → keys inside the notebook.</p>
+            <p className="mt-6 font-mono text-xs text-ink-soft">Tip: use ← → keys inside the notebook.</p>
           </div>
 
           {/* The notebook */}
           <div
-            className="min-w-0 rounded-[18px] bg-[#fbf8f1] shadow-[0_40px_80px_-40px_rgba(29,26,22,0.55),0_2px_0_rgba(29,26,22,0.06)] ring-1 ring-ink/10"
+            className="min-w-0 rounded-[28px] bg-white shadow-[0_40px_80px_-40px_rgba(29,11,54,0.45)] ring-1 ring-line"
             onKeyDown={onKey}
           >
-            <div className="border-b border-ink/10 p-5 sm:p-7">
-              <p className="font-mono text-[0.68rem] uppercase tracking-[0.16em] text-red">Practice question · GS Paper I style</p>
+            <div className="border-b border-line p-5 sm:p-7">
+              <p className="font-mono text-[0.68rem] uppercase tracking-[0.16em] text-brand">Practice question · GS Paper I style</p>
               <p className="mt-2 font-serif text-step-2 text-ink">{QUESTION}</p>
             </div>
 
-            <div role="tablist" aria-label="Answer-building steps" className="flex gap-1 overflow-x-auto border-b border-ink/10 px-3 py-2 [scrollbar-width:none] sm:px-5">
+            <div role="tablist" aria-label="Answer-building steps" className="flex gap-1 overflow-x-auto border-b border-line px-3 py-2 [scrollbar-width:none] sm:px-5">
               {steps.map((s, n) => (
                 <button
                   key={s.key}
@@ -186,7 +186,7 @@ export function ActivityLearning() {
                   onClick={() => setI(n)}
                   className={clsx(
                     "tap shrink-0 rounded-full px-3.5 py-2 text-sm transition-colors",
-                    n === i ? "bg-ink text-ivory" : "text-ink/60 hover:bg-ink/[0.06] hover:text-ink",
+                    n === i ? "bg-brand text-white" : "text-ink-soft hover:bg-mist hover:text-ink",
                   )}
                 >
                   <span className="mr-1.5 font-mono text-[0.65rem] opacity-60">{n + 1}</span>
@@ -205,7 +205,7 @@ export function ActivityLearning() {
                 backgroundPositionY: "8px",
               }}
             >
-              <span aria-hidden className="absolute bottom-0 left-3 top-0 w-px bg-red/30 sm:left-5" />
+              <span aria-hidden className="absolute bottom-0 left-3 top-0 w-px bg-brand/30 sm:left-5" />
               <AnimatePresence mode="wait">
                 <motion.div
                   key={step.key}
@@ -216,8 +216,8 @@ export function ActivityLearning() {
                   className="min-w-0 pl-3"
                 >
                   <h3 className="font-serif text-step-2 text-ink">{step.title}</h3>
-                  <p className="mt-1 font-hand text-[1.35rem] leading-tight text-blue">{step.note}</p>
-                  <ul className="mt-4 space-y-2 text-[0.98rem] text-ink/85">
+                  <p className="mt-1 font-hand text-[1.35rem] leading-tight text-brand-deep">{step.note}</p>
+                  <ul className="mt-4 space-y-2 text-[0.98rem] text-ink">
                     {step.points.map((p, n) => (
                       <motion.li
                         key={p}
@@ -226,7 +226,7 @@ export function ActivityLearning() {
                         transition={{ delay: 0.15 + n * 0.1 }}
                         className="flex gap-2.5"
                       >
-                        <span aria-hidden className="mt-[0.55em] h-1.5 w-1.5 shrink-0 rounded-full bg-red" />
+                        <span aria-hidden className="mt-[0.55em] h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />
                         <span>{p}</span>
                       </motion.li>
                     ))}
@@ -235,27 +235,27 @@ export function ActivityLearning() {
               </AnimatePresence>
               <div className="flex min-w-0 flex-col items-center justify-center gap-3 pl-3 md:items-start">
                 <Diagram key={step.key} kind={step.diagram} reduce={reduce} />
-                <p className="-rotate-2 font-hand text-[1.6rem] text-red">{step.scribble}</p>
+                <p className="-rotate-2 font-hand text-[1.6rem] text-brand">{step.scribble}</p>
               </div>
             </div>
 
-            <div className="flex items-center justify-between border-t border-ink/10 px-5 py-4 sm:px-7">
+            <div className="flex items-center justify-between border-t border-line px-5 py-4 sm:px-7">
               <button
                 type="button"
                 onClick={() => setI((v) => Math.max(0, v - 1))}
                 disabled={i === 0}
-                className="tap inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm text-ink/70 hover:text-ink disabled:opacity-30"
+                className="tap inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm text-ink-soft hover:text-ink disabled:opacity-30"
               >
                 <ArrowLeft size={16} aria-hidden /> Previous
               </button>
               <div className="h-1 w-24 overflow-hidden rounded-full bg-ink/10 sm:w-40" aria-hidden>
-                <div className="h-full bg-red transition-[width] duration-500" style={{ width: `${((i + 1) / steps.length) * 100}%` }} />
+                <div className="h-full bg-brand transition-[width] duration-500" style={{ width: `${((i + 1) / steps.length) * 100}%` }} />
               </div>
               <button
                 type="button"
                 onClick={() => setI((v) => Math.min(steps.length - 1, v + 1))}
                 disabled={i === steps.length - 1}
-                className="tap inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm font-semibold text-ink hover:text-red disabled:opacity-30"
+                className="tap inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm font-semibold text-ink hover:text-brand disabled:opacity-30"
               >
                 Next step <ArrowRight size={16} aria-hidden />
               </button>

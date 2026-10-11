@@ -14,8 +14,10 @@ import {
   MentorshipSection,
   ReadingRoomSection,
   ResourcesSection,
+  SubjectBand,
 } from "@/components/home/Sections";
 import { JsonLd } from "@/components/ui/JsonLd";
+import { VideoBand } from "@/components/home/VideoBand";
 import { faqJsonLd } from "@/lib/seo";
 import { homeFaqs } from "@/data/faq";
 
@@ -23,8 +25,10 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <SubjectBand />
       <AcademyIntro />
       <BookLibrary />
+      <VideoBand />
       <ActivityLearning />
       <NewsDesk />
       <PrelimsTeaser />

@@ -1,54 +1,46 @@
 @import "tailwindcss";
 
-/* ─────────────────────────  Design tokens  ───────────────────────── */
+/* ─────────────────────────  Design tokens — logo purple + pure white  ───────────────────────── */
 @theme {
-  --color-navy: #101c2c;
-  --color-navy-2: #16253a;
-  --color-charcoal: #151515;
-  --color-ivory: #f5f0e6;
-  --color-parchment: #e5d7bc;
-  --color-blue: #244c76;
-  --color-gold: #b79a62;
-  --color-gold-soft: #d4bf8f;
-  --color-red: #8e3935;
-  --color-grey: #b7b5af;
-  --color-ink: #1d1a16;
-  --color-brand: #6a2fb0; /* logo purple – used only for brand marks */
+  --color-white: #ffffff;
+  --color-brand: #6c36ae; /* logo purple */
+  --color-brand-deep: #5a2296; /* logo shadow purple */
+  --color-brand-light: #8448c0; /* logo highlight purple */
+  --color-brand-dark: #2e1155; /* deep sections */
+  --color-ink: #1d0b36; /* body text — a purple-black, never grey */
+  --color-ink-soft: #5b4b72;
+  --color-mist: #f7f3fc; /* the faintest purple wash */
+  --color-lilac: #ece3f7;
+  --color-line: #e4daf1;
 
   --font-serif: var(--ff-serif), "Iowan Old Style", Georgia, serif;
   --font-sans: var(--ff-sans), system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: var(--ff-mono), ui-monospace, "SFMono-Regular", monospace;
   --font-hand: var(--ff-hand), "Segoe Print", cursive;
 
-  --breakpoint-xs: 22.5rem; /* 360 */
-
+  --breakpoint-xs: 22.5rem;
   --ease-cinema: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 :root {
-  /* fluid type scale (320px → 1920px) */
   --step--1: clamp(0.8rem, 0.77rem + 0.15vw, 0.9rem);
   --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
   --step-1: clamp(1.15rem, 1.07rem + 0.4vw, 1.4rem);
   --step-2: clamp(1.35rem, 1.18rem + 0.8vw, 1.9rem);
-  --step-3: clamp(1.7rem, 1.38rem + 1.5vw, 2.75rem);
-  --step-4: clamp(2.1rem, 1.6rem + 2.4vw, 4rem);
-  --step-5: clamp(2.5rem, 1.7rem + 4vw, 6.25rem);
+  --step-3: clamp(1.75rem, 1.4rem + 1.6vw, 2.9rem);
+  --step-4: clamp(2.2rem, 1.6rem + 2.8vw, 4.4rem);
+  --step-5: clamp(2.7rem, 1.7rem + 4.6vw, 7rem);
 
-  /* spacing */
-  --gutter: clamp(1rem, 0.6rem + 2vw, 2.5rem);
-  --section-y: clamp(4.5rem, 3rem + 7vw, 10rem);
-  --container: 82rem;
-  --header-h: 4.25rem;
-
-  color-scheme: dark light;
+  --gutter: clamp(1rem, 0.6rem + 2vw, 2.75rem);
+  --section-y: clamp(5rem, 3.5rem + 7vw, 11rem);
+  --container: 84rem;
+  --header-h: 4.5rem;
+  color-scheme: light;
 }
 
-/* ─────────────────────────  Base  ───────────────────────── */
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
-    text-rendering: optimizeLegibility;
     scroll-padding-top: calc(var(--header-h) + 1rem);
   }
   html.lenis, html.lenis body { height: auto; }
@@ -56,25 +48,22 @@
   .lenis.lenis-stopped { overflow: hidden; }
 
   body {
-    background: var(--color-navy);
-    color: var(--color-ivory);
+    background: #ffffff;
+    color: var(--color-ink);
     font-family: var(--font-sans);
     font-size: var(--step-0);
-    line-height: 1.65;
+    line-height: 1.7;
     overflow-x: clip;
     -webkit-font-smoothing: antialiased;
   }
-  h1, h2, h3, h4 { font-family: var(--font-serif); font-weight: 400; line-height: 1.04; letter-spacing: -0.01em; text-wrap: balance; }
+  h1, h2, h3, h4 { font-family: var(--font-serif); font-weight: 500; line-height: 1.06; letter-spacing: -0.02em; text-wrap: balance; }
   p { text-wrap: pretty; }
-  img, svg, video, canvas { max-width: 100%; }
-  ::selection { background: var(--color-gold); color: var(--color-navy); }
-
-  :focus-visible { outline: 2px solid var(--color-gold); outline-offset: 3px; border-radius: 4px; }
-
-  a { text-underline-offset: 0.2em; }
+  img, video, svg { max-width: 100%; }
+  ::selection { background: var(--color-brand); color: #fff; }
+  :focus-visible { outline: 2px solid var(--color-brand-light); outline-offset: 3px; border-radius: 4px; }
+  a { text-underline-offset: 0.22em; }
 }
 
-/* ─────────────────────────  Utilities  ───────────────────────── */
 @utility container-x {
   width: 100%;
   max-width: var(--container);
@@ -84,45 +73,26 @@
 @utility section-y { padding-block: var(--section-y); }
 @utility text-step--1 { font-size: var(--step--1); }
 @utility text-step-0 { font-size: var(--step-0); }
-@utility text-step-1 { font-size: var(--step-1); line-height: 1.45; }
+@utility text-step-1 { font-size: var(--step-1); line-height: 1.5; }
 @utility text-step-2 { font-size: var(--step-2); line-height: 1.25; }
-@utility text-step-3 { font-size: var(--step-3); line-height: 1.08; }
+@utility text-step-3 { font-size: var(--step-3); line-height: 1.06; }
 @utility text-step-4 { font-size: var(--step-4); line-height: 1.02; }
 @utility text-step-5 { font-size: var(--step-5); line-height: 0.95; }
 @utility eyebrow {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
+  font-weight: 600;
   font-size: 0.72rem;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
 }
-@utility paper {
-  background-color: var(--color-ivory);
-  color: var(--color-ink);
-  background-image:
-    radial-gradient(rgba(29, 26, 22, 0.045) 1px, transparent 1px),
-    radial-gradient(rgba(29, 26, 22, 0.03) 1px, transparent 1px);
-  background-size: 3px 3px, 7px 7px;
-  background-position: 0 0, 1px 2px;
-}
-@utility rule { border-color: color-mix(in oklab, currentColor 18%, transparent); }
-@utility grain {
-  position: relative;
-  isolation: isolate;
-  &::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 1;
-    opacity: 0.06;
-    mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-  }
+/* italic serif accent in brand purple */
+@utility accent {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--color-brand);
 }
 
-/* ─────────────────────────  Reveal fallbacks  ─────────────────────────
-   Animated text starts hidden ONLY when JS is running and motion is allowed.
-   A CSS failsafe reveals it after 3s if the animation never runs. */
+/* Animated text starts hidden only when JS runs and motion is allowed; CSS failsafe after 3s. */
 html.js:not(.reduce-motion) [data-reveal-line] > span {
   display: inline-block;
   transform: translateY(110%);
@@ -134,17 +104,18 @@ html.js:not(.reduce-motion) [data-reveal-fade] {
 }
 @keyframes dl-failsafe { to { transform: none; } }
 @keyframes dl-failsafe-fade { to { opacity: 1; } }
+[data-reveal-line] { display: block; overflow: hidden; padding-bottom: 0.1em; margin-bottom: -0.1em; }
 
-[data-reveal-line] { display: block; overflow: hidden; padding-bottom: 0.08em; margin-bottom: -0.08em; }
+@keyframes dl-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes dl-scroll { 0% { transform: translateY(-100%); } 100% { transform: translateY(200%); } }
+@keyframes dl-drift { 0%, 100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(-4%,3%,0) scale(1.08); } }
+@keyframes dl-bar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes dl-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
 }
 
-/* Tap targets */
 @media (pointer: coarse) {
   .tap { min-height: 44px; min-width: 44px; }
 }
-
-@keyframes dl-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-@keyframes dl-scroll { 0% { transform: translateY(-100%); } 100% { transform: translateY(200%); } }

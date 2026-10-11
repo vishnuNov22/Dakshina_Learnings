@@ -8,9 +8,9 @@ export default function TermsPage() {
   return (
     <>
       <PageHeader eyebrow="Legal" title="Terms & Conditions" crumbs={[{ label: "Terms", href: "/terms" }]} />
-      <section className="paper section-y">
-        <div className="container-x max-w-3xl space-y-6 text-ink/80 [&_h2]:mt-10 [&_h2]:text-step-2 [&_h2]:text-ink">
-          <p className="text-sm text-ink/50">Template — to be reviewed and approved by the academy before publication.</p>
+      <section className="bg-white section-y">
+        <div className="container-x max-w-3xl space-y-6 text-ink [&_h2]:mt-10 [&_h2]:text-step-2 [&_h2]:text-ink">
+          <p className="text-sm text-ink-soft">Template — to be reviewed and approved by the academy before publication.</p>
           <h2>Information on this website</h2>
           <p>Programme descriptions are for general information. Batch dates, duration, fees and schedules are confirmed directly by the academy and may change.</p>
           <h2>No guarantee of selection</h2>

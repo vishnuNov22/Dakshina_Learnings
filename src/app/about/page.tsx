@@ -1,4 +1,5 @@
 import { PageHeader } from "@/components/layout/PageHeader";
+import { photos } from "@/data/media";
 import { EnquiryCta } from "@/components/home/Sections";
 import { JourneyTimeline } from "@/components/storytelling/JourneyTimeline";
 import { Reveal } from "@/components/ui/Reveal";
@@ -22,26 +23,27 @@ export default function AboutPage() {
   return (
     <>
       <PageHeader
+        photo={photos.studentsBooks}
         eyebrow="About the academy"
-        title={<>Where aspirants learn to <em className="text-gold-soft">think like officers.</em></>}
+        title={<>Where aspirants learn to <span className="accent">think like officers.</span></>}
         lede="Dakshina Learnings is a civil services academy in Thiruvananthapuram, Kerala, dedicated to UPSC Civil Services Examination preparation."
         crumbs={[{ label: "About", href: "/about" }]}
       />
-      <section className="paper section-y">
+      <section className="bg-white section-y">
         <div className="container-x grid gap-14 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.3fr)]">
           <div className="min-w-0">
-            <p className="eyebrow text-red">Our approach</p>
+            <p className="eyebrow text-brand">Our approach</p>
             <p className="mt-6 font-serif text-step-3 text-ink">
               Building tomorrow&rsquo;s civil servants — one question, one discussion, one answer at a time.
             </p>
           </div>
-          <ol className="min-w-0 divide-y divide-ink/15 border-y border-ink/15">
+          <ol className="min-w-0 divide-y divide-line border-y border-line">
             {principles.map((p, i) => (
               <Reveal as="li" key={p.t} delay={i * 0.05} className="grid gap-2 py-6 sm:grid-cols-[3rem_1fr]">
-                <span className="font-mono text-xs text-red">{String(i + 1).padStart(2, "0")}</span>
+                <span className="font-mono text-xs text-brand">{String(i + 1).padStart(2, "0")}</span>
                 <div>
                   <h2 className="text-step-2 text-ink">{p.t}</h2>
-                  <p className="mt-1 text-ink/70">{p.d}</p>
+                  <p className="mt-1 text-ink-soft">{p.d}</p>
                 </div>
               </Reveal>
             ))}

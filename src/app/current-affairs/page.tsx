@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { PageHeader } from "@/components/layout/PageHeader";
+import { photos } from "@/data/media";
 import { StoryAnalysis } from "@/components/storytelling/NewsDesk";
 import { EnquiryCta } from "@/components/home/Sections";
 import { stories } from "@/data/news-sample";
@@ -15,13 +16,13 @@ export default function CurrentAffairsPage() {
   return (
     <>
       <PageHeader
-        tone="paper"
+        photo={photos.newsReader}
         eyebrow="Daily News Desk"
-        title={<>The news, <em className="text-red">read for the exam.</em></>}
+        title={<>The news, <span className="accent">read for the exam.</span></>}
         lede="Every story is broken into what happened, why it matters, its background, the subjects it touches and how it can enter an answer. The academy reports daily analysis, including The Hindu analysis in Malayalam."
         crumbs={[{ label: "Current Affairs", href: "/current-affairs" }]}
       />
-      <section className="paper pb-[var(--section-y)]">
+      <section className="bg-white pb-[var(--section-y)]">
         <div className="container-x space-y-16">
           {stories.map((s) => (
             <div key={s.slug}>
@@ -31,7 +32,7 @@ export default function CurrentAffairsPage() {
               </Link>
             </div>
           ))}
-          <p className="max-w-2xl border-t border-ink/15 pt-6 text-sm text-ink/60">
+          <p className="max-w-2xl border-t border-line pt-6 text-sm text-ink-soft">
             For the latest daily analysis and class timings, follow the academy on Instagram or contact the team.
           </p>
         </div>

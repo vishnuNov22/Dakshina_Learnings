@@ -7,6 +7,7 @@ import { organisationJsonLd } from "@/lib/seo";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
+import { IntroCurtain } from "@/components/layout/IntroCurtain";
 import { ContactFab } from "@/components/contact/ContactFab";
 import { JsonLd } from "@/components/ui/JsonLd";
 
@@ -41,7 +42,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#101C2C",
+  themeColor: "#6C36AE",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -64,6 +65,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <JsonLd data={organisationJsonLd()} />
       </head>
       <body>
+        <IntroCurtain />
         <SmoothScroll />
         <SiteHeader phoneHref={tel} phoneLabel={contact.phone ? formatPhoneDisplay(contact.phone) : null} />
         <main id="main" tabIndex={-1} className="outline-none">

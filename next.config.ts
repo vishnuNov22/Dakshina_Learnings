@@ -14,17 +14,15 @@ const nextConfig: NextConfig = {
   images: {
     formats: ["image/avif", "image/webp"],
     deviceSizes: [360, 414, 640, 768, 1024, 1280, 1536, 1920, 2560],
-    // Original SVG illustrations ship from /public/images. They contain no scripts;
-    // the CSP below sandboxes them anyway.
-    dangerouslyAllowSVG: true,
-    contentDispositionType: "inline",
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    // Add verified remote hosts here when real academy photography is hosted elsewhere, e.g.
-    // remotePatterns: [{ protocol: "https", hostname: "dakshinalearnings.com" }],
-    remotePatterns: [],
+    // Real photography (Unsplash licence) and book covers (Open Library Covers API).
+    // Add the academy's own image host here when real campus photos are available.
+    remotePatterns: [
+      { protocol: "https", hostname: "images.unsplash.com" },
+      { protocol: "https", hostname: "covers.openlibrary.org" },
+    ],
   },
   experimental: {
-    optimizePackageImports: ["lucide-react", "@react-three/drei"],
+    optimizePackageImports: ["lucide-react"],
   },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];

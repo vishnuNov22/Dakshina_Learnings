@@ -16,19 +16,19 @@ import { enquiryMessage, instagram, whatsappLink } from "@/lib/contact";
 type Errors = Record<string, string>;
 
 const input =
-  "w-full min-w-0 rounded-xl border bg-white/80 px-4 py-3.5 text-[1rem] text-ink outline-none transition-[border-color,box-shadow] placeholder:text-ink/35 focus:border-blue focus:ring-4 focus:ring-blue/15";
+  "w-full min-w-0 rounded-xl border bg-mist px-4 py-3.5 text-[1rem] text-ink outline-none transition-[border-color,box-shadow] placeholder:text-ink-soft focus:border-brand focus:ring-4 focus:ring-brand/15";
 
 function Field({ id, label, error, hint, optional, children }: { id: string; label: string; error?: string; hint?: string; optional?: boolean; children: ReactNode }) {
   return (
     <div className="min-w-0">
       <label htmlFor={id} className="mb-2 flex items-baseline justify-between gap-3 text-sm font-semibold text-ink">
         {label}
-        {optional ? <span className="font-mono text-[0.65rem] font-normal uppercase tracking-[0.14em] text-ink/45">Optional</span> : null}
+        {optional ? <span className="font-mono text-[0.65rem] font-normal uppercase tracking-[0.14em] text-ink-soft">Optional</span> : null}
       </label>
       {children}
-      {hint && !error ? <p id={`${id}-hint`} className="mt-1.5 text-xs text-ink/50">{hint}</p> : null}
+      {hint && !error ? <p id={`${id}-hint`} className="mt-1.5 text-xs text-ink-soft">{hint}</p> : null}
       {error ? (
-        <p id={`${id}-error`} role="alert" className="mt-1.5 text-sm text-red">
+        <p id={`${id}-error`} role="alert" className="mt-1.5 text-sm text-brand">
           {error}
         </p>
       ) : null}
@@ -50,7 +50,7 @@ export function EnquiryForm({ whatsapp, phoneHref, defaultProgramme }: { whatsap
   const [copied, setCopied] = useState(false);
 
   const describedBy = (n: string) => (errors[n] ? `${id(n)}-error` : undefined);
-  const cls = (n: string) => clsx(input, errors[n] ? "border-red" : "border-ink/15");
+  const cls = (n: string) => clsx(input, errors[n] ? "border-brand" : "border-line");
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -84,36 +84,36 @@ export function EnquiryForm({ whatsapp, phoneHref, defaultProgramme }: { whatsap
 
   if (result) {
     return (
-      <div className="rounded-2xl bg-white/80 p-6 ring-1 ring-ink/10 sm:p-8" role="status" aria-live="polite">
+      <div className="rounded-2xl bg-mist p-6 ring-1 ring-line sm:p-8" role="status" aria-live="polite">
         <span className="grid h-12 w-12 place-items-center rounded-full bg-[#25D366] text-white">
           <MessageCircle size={22} aria-hidden />
         </span>
         <h3 className="mt-5 text-step-3 text-ink">{result.link ? "Almost done — send it in WhatsApp" : "Your enquiry is ready to send"}</h3>
-        <p className="mt-3 text-ink/70">
+        <p className="mt-3 text-ink-soft">
           {result.link
             ? "We opened WhatsApp with your details filled in. Tap Send there so the academy receives your enquiry. If WhatsApp didn't open, use the button below."
             : "Copy your details and send them to the academy on Instagram, or call directly."}
         </p>
-        <pre className="mt-5 max-h-56 overflow-auto whitespace-pre-wrap rounded-xl bg-ink/[0.04] p-4 font-mono text-xs leading-relaxed text-ink/80">{result.message}</pre>
+        <pre className="mt-5 max-h-56 overflow-auto whitespace-pre-wrap rounded-xl bg-mist p-4 font-mono text-xs leading-relaxed text-ink">{result.message}</pre>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
           {result.link ? (
             <a href={result.link} target="_blank" rel="noopener noreferrer" className="tap inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-6 py-3.5 font-semibold text-white">
               <MessageCircle size={18} aria-hidden /> Open WhatsApp
             </a>
           ) : null}
-          <button type="button" onClick={copy} className="tap inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 font-semibold text-ink ring-1 ring-ink/25 hover:bg-ink/5">
+          <button type="button" onClick={copy} className="tap inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 font-semibold text-ink ring-1 ring-line hover:bg-mist">
             {copied ? <Check size={18} aria-hidden /> : <Copy size={18} aria-hidden />} {copied ? "Copied" : "Copy details"}
           </button>
-          <a href={instagram.dm} target="_blank" rel="noopener noreferrer" className="tap inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 font-semibold text-ink ring-1 ring-ink/25 hover:bg-ink/5">
+          <a href={instagram.dm} target="_blank" rel="noopener noreferrer" className="tap inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 font-semibold text-ink ring-1 ring-line hover:bg-mist">
             <Instagram size={18} aria-hidden /> Instagram DM
           </a>
           {phoneHref ? (
-            <a href={phoneHref} className="tap inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 font-semibold text-ink ring-1 ring-ink/25 hover:bg-ink/5">
+            <a href={phoneHref} className="tap inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 font-semibold text-ink ring-1 ring-line hover:bg-mist">
               <Phone size={18} aria-hidden /> Call
             </a>
           ) : null}
         </div>
-        <button type="button" onClick={() => setResult(null)} className="mt-6 text-sm text-ink/60 underline underline-offset-4 hover:text-ink">
+        <button type="button" onClick={() => setResult(null)} className="mt-6 text-sm text-ink-soft underline underline-offset-4 hover:text-ink">
           Edit my details
         </button>
       </div>
@@ -177,13 +177,13 @@ export function EnquiryForm({ whatsapp, phoneHref, defaultProgramme }: { whatsap
           {CONTACT_METHODS.map((m, n) => (
             <label key={m} className="tap relative inline-flex cursor-pointer items-center">
               <input type="radio" name="contactMethod" value={m} defaultChecked={n === 1} className="peer sr-only" />
-              <span className="rounded-full px-4 py-2.5 text-sm text-ink/70 ring-1 ring-ink/20 transition-colors peer-checked:bg-ink peer-checked:text-ivory peer-focus-visible:ring-2 peer-focus-visible:ring-blue">
+              <span className="rounded-full px-4 py-2.5 text-sm text-ink-soft ring-1 ring-line transition-colors peer-checked:bg-ink peer-checked:text-ink peer-focus-visible:ring-2 peer-focus-visible:ring-brand">
                 {m}
               </span>
             </label>
           ))}
         </div>
-        {errors.contactMethod ? <p role="alert" className="mt-1.5 text-sm text-red">{errors.contactMethod}</p> : null}
+        {errors.contactMethod ? <p role="alert" className="mt-1.5 text-sm text-brand">{errors.contactMethod}</p> : null}
       </fieldset>
       <div className="sm:col-span-2">
         <Field id={id("message")} label="Additional questions" optional error={errors.message}>
@@ -191,20 +191,20 @@ export function EnquiryForm({ whatsapp, phoneHref, defaultProgramme }: { whatsap
         </Field>
       </div>
       <div className="sm:col-span-2">
-        <label className="flex cursor-pointer items-start gap-3 text-sm text-ink/75">
-          <input type="checkbox" name="consent" className="mt-0.5 h-5 w-5 shrink-0 accent-[#244C76]" aria-invalid={!!errors.consent} aria-describedby={describedBy("consent")} />
+        <label className="flex cursor-pointer items-start gap-3 text-sm text-ink-soft">
+          <input type="checkbox" name="consent" className="mt-0.5 h-5 w-5 shrink-0 accent-[#6c36ae]" aria-invalid={!!errors.consent} aria-describedby={describedBy("consent")} />
           <span>
             I agree to share these details with Dakshina Learnings so they can contact me about admissions. See the{" "}
             <a href="/privacy-policy" className="underline">privacy policy</a>.
           </span>
         </label>
-        {errors.consent ? <p id={`${id("consent")}-error`} role="alert" className="mt-1.5 text-sm text-red">{errors.consent}</p> : null}
+        {errors.consent ? <p id={`${id("consent")}-error`} role="alert" className="mt-1.5 text-sm text-brand">{errors.consent}</p> : null}
       </div>
       <div className="flex flex-col gap-3 sm:col-span-2 sm:flex-row sm:items-center">
         <button type="submit" className="tap inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-7 py-4 font-semibold text-white shadow-[0_10px_30px_-12px_rgba(37,211,102,0.8)] hover:brightness-105">
           <MessageCircle size={18} aria-hidden /> {whatsapp ? "Send enquiry on WhatsApp" : "Prepare my enquiry"}
         </button>
-        <p className="text-xs text-ink/55">Your details are sent only when you tap Send in WhatsApp. Nothing is stored on this website.</p>
+        <p className="text-xs text-ink-soft">Your details are sent only when you tap Send in WhatsApp. Nothing is stored on this website.</p>
       </div>
     </form>
   );

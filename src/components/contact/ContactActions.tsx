@@ -9,14 +9,14 @@ type Tone = "dark" | "light";
  * WhatsApp · Call · Instagram action cards. Channels without a verified
  * number are not rendered (Instagram is always available).
  */
-export function ContactActions({ tone = "dark", message = DEFAULT_WA_MESSAGE, className }: { tone?: Tone; message?: string; className?: string }) {
+export function ContactActions({ tone = "light", message = DEFAULT_WA_MESSAGE, className }: { tone?: Tone; message?: string; className?: string }) {
   const wa = whatsappLink(contact.whatsapp, message);
   const tel = telLink(contact.phone);
   const card = clsx(
     "tap group flex min-w-0 items-center gap-4 rounded-2xl p-5 ring-1 transition-[background-color,box-shadow] duration-300",
-    tone === "dark" ? "bg-ivory/[0.04] ring-ivory/12 hover:bg-ivory/[0.08] hover:ring-gold/60" : "bg-white/60 ring-ink/12 hover:bg-white hover:ring-ink/30",
+    tone === "dark" ? "bg-white/10 text-white ring-white/20 backdrop-blur hover:bg-white hover:text-brand-deep" : "bg-white text-ink ring-line hover:ring-brand hover:shadow-[0_20px_40px_-25px_rgba(90,34,150,0.6)]",
   );
-  const sub = tone === "dark" ? "text-ivory/60" : "text-ink/60";
+  const sub = tone === "dark" ? "opacity-75" : "text-ink-soft";
   const items = [
     wa && {
       href: wa,
@@ -30,7 +30,7 @@ export function ContactActions({ tone = "dark", message = DEFAULT_WA_MESSAGE, cl
       href: tel,
       external: false,
       icon: <Phone size={20} aria-hidden />,
-      iconBg: "bg-gold text-navy",
+      iconBg: "bg-brand text-white",
       title: "Call the academy",
       text: formatPhoneDisplay(contact.phone),
     },
@@ -46,7 +46,7 @@ export function ContactActions({ tone = "dark", message = DEFAULT_WA_MESSAGE, cl
       href: instagram.dm,
       external: true,
       icon: <Send size={19} aria-hidden />,
-      iconBg: tone === "dark" ? "bg-ivory text-navy" : "bg-navy text-ivory",
+      iconBg: "bg-brand-deep text-white",
       title: "Message on Instagram",
       text: "Send us a direct message",
     },

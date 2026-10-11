@@ -9,10 +9,11 @@ import { ContactActions } from "@/components/contact/ContactActions";
 import { breadcrumbJsonLd } from "@/lib/seo";
 import { programmeMessage } from "@/lib/contact";
 import type { ReactNode } from "react";
+import type { Photo as PhotoData } from "@/data/media";
 
 function Block({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <section className="min-w-0 border-t border-ink/15 py-10">
+    <section className="min-w-0 border-t border-line py-10">
       <h2 className="text-step-3 text-ink">{title}</h2>
       <div className="mt-6">{children}</div>
     </section>
@@ -23,8 +24,8 @@ function Bullets({ items }: { items: string[] }) {
   return (
     <ul className="grid gap-3 sm:grid-cols-2">
       {items.map((i) => (
-        <li key={i} className="flex gap-3 text-ink/80">
-          <span aria-hidden className="mt-[0.6em] h-1.5 w-1.5 shrink-0 rounded-full bg-red" />
+        <li key={i} className="flex gap-3 text-ink">
+          <span aria-hidden className="mt-[0.6em] h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />
           {i}
         </li>
       ))}
@@ -32,7 +33,7 @@ function Bullets({ items }: { items: string[] }) {
   );
 }
 
-export function ProgrammeDetail({ p, children }: { p: Programme; children?: ReactNode }) {
+export function ProgrammeDetail({ p, children, photo }: { p: Programme; children?: ReactNode; photo?: PhotoData }) {
   const facts: [string, string | null][] = [
     ["Duration", p.duration],
     ["Mode", p.mode],
@@ -45,6 +46,7 @@ export function ProgrammeDetail({ p, children }: { p: Programme; children?: Reac
         eyebrow={p.kicker}
         title={p.title}
         lede={p.summary}
+        photo={photo}
         crumbs={[
           { label: "Programmes", href: "/programmes" },
           { label: p.shortTitle, href: programmeHref(p.slug) },
@@ -55,7 +57,7 @@ export function ProgrammeDetail({ p, children }: { p: Programme; children?: Reac
         </LinkButton>
       </PageHeader>
 
-      <div className="paper">
+      <div className="bg-white">
         <div className="container-x grid gap-12 pb-[var(--section-y)] pt-12 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:gap-16">
           <div className="min-w-0">
             {children}
@@ -68,9 +70,9 @@ export function ProgrammeDetail({ p, children }: { p: Programme; children?: Reac
             <Block title="Curriculum">
               <div className="grid gap-5 md:grid-cols-2">
                 {p.curriculum.map((c) => (
-                  <div key={c.title} className="rounded-2xl bg-white/60 p-6 ring-1 ring-ink/10">
+                  <div key={c.title} className="rounded-2xl bg-mist p-6 ring-1 ring-line">
                     <h3 className="font-serif text-step-2 text-ink">{c.title}</h3>
-                    <ul className="mt-3 space-y-1.5 text-ink/75">
+                    <ul className="mt-3 space-y-1.5 text-ink-soft">
                       {c.points.map((pt) => (
                         <li key={pt}>— {pt}</li>
                       ))}
@@ -90,19 +92,19 @@ export function ProgrammeDetail({ p, children }: { p: Programme; children?: Reac
           </div>
 
           <aside className="min-w-0 lg:sticky lg:top-[calc(var(--header-h)+1.5rem)] lg:self-start">
-            <div className="rounded-2xl bg-navy p-6 text-ivory sm:p-8">
-              <p className="eyebrow text-gold">At a glance</p>
-              <dl className="mt-6 divide-y divide-ivory/10">
+            <div className="rounded-[28px] bg-brand-dark p-7 text-white sm:p-9">
+              <p className="eyebrow text-white/70">At a glance</p>
+              <dl className="mt-6 divide-y divide-white/15">
                 {facts.map(([k, v]) => (
                   <div key={k} className="flex items-center justify-between gap-4 py-3.5">
-                    <dt className="text-sm text-ivory/60">{k}</dt>
-                    <dd className="text-right font-semibold">{v ?? <span className="text-sm font-normal text-ivory/50">Shared on enquiry</span>}</dd>
+                    <dt className="text-sm text-white/65">{k}</dt>
+                    <dd className="text-right font-semibold">{v ?? <span className="text-sm font-normal text-white/60">Shared on enquiry</span>}</dd>
                   </div>
                 ))}
               </dl>
               {!p.confirmed ? <PendingNote tone="dark" className="mt-5">Details being confirmed by the academy</PendingNote> : null}
               <div className="mt-8">
-                <ContactActions message={programmeMessage(p.title)} className="!grid-cols-1" />
+                <ContactActions tone="dark" message={programmeMessage(p.title)} className="!grid-cols-1" />
               </div>
             </div>
           </aside>

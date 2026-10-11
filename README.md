@@ -1,7 +1,9 @@
 # Dakshina Learnings — Website
 
 Cinematic, responsive front-end for **Dakshina Learnings Civil Service Academy**, Thiruvananthapuram.
-Next.js (App Router) · TypeScript (strict) · Tailwind CSS v4 · Three.js / React Three Fiber / Drei · GSAP ScrollTrigger · Framer Motion · Lenis.
+Next.js (App Router) · TypeScript (strict) · Tailwind CSS v4 · Three.js / React Three Fiber / Drei · GSAP ScrollTrigger · Framer Motion · Lenis. Fonts: Playfair Display + Plus Jakarta Sans.
+
+**Design:** logo purple (#6C36AE / #5A2296) and pure white. It uses real photography, real book covers and a real hero video, with high-end WebGL: floating real-cover books in the hero and a scroll-driven 3D book carousel. Also clip-reveal photos, parallax, a branded intro curtain and the aspirant-to-officer card flip.
 
 Front-end only: there is no database or server code. Enquiries go to the academy by **WhatsApp**, with **call** and **Instagram** as the other channels.
 
@@ -63,9 +65,10 @@ All content lives in typed data files. No CMS is needed.
 | `src/data/programmes.ts` | Programmes and their detail pages. Set `duration`, `mode`, `batch`, `fees` once confirmed (`null` shows "Shared on enquiry"). Set `confirmed: true` after sign-off |
 | `src/data/news-sample.ts` | Daily News Desk stories. Add real analyses to `stories` (newest first) |
 | `src/data/faculty.ts` | Faculty profiles and **verified** testimonials (both empty by default, with honest empty states) |
-| `src/data/books.ts` | The 3D book library: titles, concepts, colours |
+| `src/data/books.ts` | The bookshelf: titles, real cover images (Open Library), concepts |
 | `src/data/faq.ts`, `journey.ts`, `resources.ts`, `practice-question.ts` | FAQs, the UPSC journey, official links, the Prelims practice question |
-| `src/data/media.ts` | Images. Replace the illustrative SVGs with real academy photos here (`src`, `width`, `height`, optional portrait `mobile` crop, `illustrative: false`) |
+| `src/data/media.ts` | All photographs (Unsplash licence, free for commercial use). Swap any `src` for the academy's own photos (put files in `public/images/` and use `/images/name.jpg`) |
+| `public/videos/` | Hero video: add `hero.mp4` (and optionally `hero-mobile.mp4`). See `public/videos/README.txt` for the recommended free Pexels clips. Until then the hero shows a photograph |
 | `src/lib/site.ts` | Name, tagline, navigation, social handles |
 
 ## 4. Project structure
@@ -76,26 +79,25 @@ src/
                           learning-method, library, faculty, results, resources, admissions, contact,
                           privacy-policy, terms), sitemap.ts, robots.ts, opengraph-image.tsx, icon
   components/
-    hero/                 cinematic 3D desk scene + GSAP intro timeline
-    books/                scroll-driven 3D book library (sticky scene + chapter panel + static fallback)
-    storytelling/         activity notebook, news desk, Prelims elimination lab, journey, ID-card transformation
-    three/                shared WebGL: SceneCanvas (fallback, pause off-screen, adaptive DPR), Book3D,
-                          light-shaft & dust GLSL shaders, canvas-generated textures
+    hero/                 full-screen video hero (photo fallback) + GSAP intro timeline
+    books/                CSS-3D books built around real covers; pinned scroll shelf (desktop), swipe shelf (mobile)
+    storytelling/         activity notebook, news desk, Prelims elimination lab, journey, aspirant→officer card flip
     contact/              ContactFab (floating WhatsApp · Call · Instagram dock), ContactActions cards
     forms/                EnquiryForm (zod validation → WhatsApp)
     layout/ ui/ home/ programmes/
   data/  lib/
-public/images/            logo + original SVG illustrations
+public/images/            logo (add the academy's own photos here)
+public/videos/            hero video (hero.mp4 / hero-mobile.mp4)
 tests/                    vitest unit tests (contact links, validation)
 ```
 
 ## 5. Engineering notes
 
 - **One scroll engine**: Lenis is driven by GSAP's ticker, so ScrollTrigger reads the same scroll value. It's disabled on touch devices and for `prefers-reduced-motion`.
-- **3D performance**: scenes are dynamically imported (`ssr: false`) and stop rendering when off-screen. DPR adapts through `PerformanceMonitor`. Phones and low-memory devices get fewer particles and no shadow maps. All textures are drawn to canvas at runtime, so there are no texture downloads.
-- **Fallbacks**: without WebGL the hero shows an illustration and the library becomes a static grid. With reduced motion, every scroll animation becomes a static layout. Hero text is server-rendered, and a CSS failsafe reveals it after 3 s if JavaScript never runs.
+- **Performance**: the 3D scenes load lazily, pause off-screen and adapt pixel ratio. Cover textures go through the same-origin `/_next/image` proxy, so there are no CORS issues; a failed cover falls back to a plain binding. Without WebGL, CSS-3D books are shown instead. Photos go through `next/image` (AVIF/WebP, responsive sizes), and the hero video loads only when motion is allowed and Data Saver is off.
+- **Fallbacks**: with reduced motion, the pinned shelf becomes a swipe shelf, the card shows its final face, and the video is replaced by a photo. Hero text is server-rendered, and a CSS failsafe reveals it after 3 s if JavaScript never runs.
 - **Responsive**: fluid `clamp()` type and spacing, separate phone compositions (3D stage above the text, never under it), `svh` units, `<picture>` art direction for portrait crops, `overflow-x: clip` (sticky-safe).
-- **Honesty**: book covers are original typographic designs. The ID card is clearly fictional (no emblem or seal). The practice question is labelled as not a previous-year question. No invented results, fees, faculty or numbers.
+- **Honesty**: book covers are shown to identify titles (© publishers, via Open Library). The ID card is clearly fictional (no emblem or seal), and photos are labelled representative. The practice question is not a previous-year question, and there are no invented results, fees, faculty or numbers.
 
 ## 6. Deploy
 
@@ -104,4 +106,4 @@ Any Node host works too: `npm run build && npm start`.
 
 ## 7. Test checklist
 
-Test at 320, 375, 430, 768, 1024, 1440 and 1920 px. Also test with reduced motion on, WebGL off (`chrome://flags` → disable WebGL), 200% zoom, keyboard-only navigation, and a slow network (DevTools → Network → Slow 4G).
+Test at 320, 375, 430, 768, 1024, 1440 and 1920 px. Also test with reduced motion on, 200% zoom, keyboard-only navigation, and a slow network (DevTools → Network → Slow 4G).

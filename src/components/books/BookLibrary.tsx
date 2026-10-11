@@ -1,33 +1,53 @@
 "use client";
+import type React from "react";
 
-import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import clsx from "clsx";
 import { books } from "@/data/books";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { SceneCanvas } from "@/components/three/SceneCanvas";
-import { useReducedMotionPref, useWebGLSupport } from "@/components/three/hooks";
-import { SubjectVisual } from "./SubjectVisual";
-import { StaticBookGrid } from "./StaticBookGrid";
-import type { LibraryDrive } from "./BookScene";
+import { useMediaQuery } from "@/lib/useMediaQuery";
+import { Book } from "./Book";
+import { SceneShell } from "@/components/three/SceneShell";
+import type { RingDrive } from "./BookRing";
+import dynamic from "next/dynamic";
 
-const BookScene = dynamic(() => import("./BookScene"), { ssr: false });
+const BookRing = dynamic(() => import("./BookRing"), { ssr: false });
 
 const N = books.length;
 
-export function BookLibrary() {
-  const reduce = useReducedMotionPref();
-  const webgl = useWebGLSupport();
+function Detail({ index }: { index: number }) {
+  const b = books[index] ?? books[0]!;
+  return (
+    <div key={b.id} className="animate-[dl-in_0.7s_var(--ease-cinema)_both]">
+      <p className="eyebrow text-brand">
+        {String(index + 1).padStart(2, "0")} / {String(N).padStart(2, "0")} · {b.subject}
+      </p>
+      <h3 className="mt-3 text-[clamp(1.5rem,1.1rem+2.2vw,3.4rem)] leading-[1.04] text-ink lg:mt-4">{b.title}</h3>
+      <p className="mt-2 text-ink-soft">
+        {b.author} <span className="text-brand">·</span> {b.publisher}
+      </p>
+      <p className="mt-6 hidden border-l-2 border-brand pl-5 font-serif text-step-2 italic text-brand-deep sm:block">&ldquo;{b.note}&rdquo;</p>
+      <ul className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 sm:mt-7 sm:gap-x-6 sm:gap-y-3">
+        {b.concepts.map((c, i) => (
+          <li key={c} className="flex gap-2.5 text-[0.85rem] leading-snug text-ink sm:gap-3 sm:text-[0.95rem]">
+            <span className="mt-[0.15em] grid h-6 w-6 shrink-0 place-items-center rounded-full bg-mist text-[0.7rem] font-bold text-brand">{i + 1}</span>
+            {c}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+/** WebGL ring of real books. Scrolling turns the ring; the front book swings forward. */
+function RingShelf() {
   const wrap = useRef<HTMLDivElement>(null);
-  const panel = useRef<HTMLDivElement>(null);
-  const drive = useRef<LibraryDrive>({ index: 0, local: 0 });
+  const drive = useRef<RingDrive>({ progress: 0 });
   const [active, setActive] = useState(0);
-  const animated = !reduce && webgl !== false;
 
   useEffect(() => {
-    if (!animated) return;
     gsap.registerPlugin(ScrollTrigger);
     const el = wrap.current;
     if (!el) return;
@@ -36,127 +56,113 @@ export function BookLibrary() {
       start: "top top",
       end: "bottom bottom",
       scrub: true,
-      onUpdate: (self) => {
-        const f = Math.min(self.progress * N, N - 0.0001);
-        const index = Math.floor(f);
-        const local = f - index;
-        drive.current.index = index;
-        drive.current.local = local;
-        panel.current?.style.setProperty("--l", local.toFixed(4));
-        panel.current?.style.setProperty("--draw", Math.min(1, Math.max(0, (local - 0.3) / 0.4)).toFixed(4));
-        setActive((a) => (a === index ? a : index));
+      onUpdate: (s) => {
+        drive.current.progress = s.progress;
+        const n = Math.round(s.progress * (N - 1));
+        setActive((a) => (a === n ? a : n));
       },
     });
     return () => st.kill();
-  }, [animated]);
+  }, []);
 
   const jumpTo = (i: number) => {
     const el = wrap.current;
     if (!el) return;
     const top = el.getBoundingClientRect().top + window.scrollY;
-    const span = el.offsetHeight - window.innerHeight;
-    window.scrollTo({ top: top + ((i + 0.6) / N) * span, behavior: reduce ? "auto" : "smooth" });
+    window.scrollTo({ top: top + (i / (N - 1)) * (el.offsetHeight - window.innerHeight), behavior: "smooth" });
   };
 
-  const book = books[active] ?? books[0]!;
-
   return (
-    <section aria-labelledby="library-title" className="relative bg-[#0b1420] text-ivory">
-      <div className="container-x pb-12 pt-[var(--section-y)]">
+    <div ref={wrap} className="relative" style={{ height: `${N * 75 + 40}svh` }}>
+      <div className="sticky top-0 flex h-[100svh] flex-col overflow-hidden pt-[var(--header-h)] lg:flex-row lg:items-center lg:pt-0">
+        <div aria-hidden className="pointer-events-none absolute left-1/2 top-1/2 -z-0 h-[70vmin] w-[70vmin] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(132,72,192,0.16),transparent)] lg:left-[68%]" />
+        <div className="relative order-1 h-[50%] min-h-0 shrink-0 lg:order-2 lg:h-full lg:flex-1">
+          <SceneShell className="absolute inset-0" label={`3D carousel of UPSC books; now showing ${books[active]?.title ?? ""}`} fallback={null} fov={32} position={[0, 0.55, 6.6]}>
+            <BookRing drive={drive} />
+          </SceneShell>
+        </div>
+        <div className="relative order-2 min-h-0 flex-1 overflow-hidden px-[var(--gutter)] lg:order-1 lg:w-[44%] lg:flex-none lg:pl-[max(var(--gutter),calc((100vw-var(--container))/2+var(--gutter)))] lg:pr-6">
+          <Detail index={active} />
+          <nav aria-label="Choose a book" className="mt-6 hidden flex-wrap gap-2 sm:flex lg:mt-10">
+            {books.map((b, i) => (
+              <button
+                key={b.id}
+                type="button"
+                onClick={() => jumpTo(i)}
+                aria-current={i === active ? "true" : undefined}
+                className={clsx("tap rounded-full px-4 py-2 text-xs font-semibold transition-colors duration-300", i === active ? "bg-brand text-white" : "bg-mist text-brand-deep hover:bg-lilac")}
+              >
+                {b.subject}
+              </button>
+            ))}
+          </nav>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/** Phones & tablets: a swipeable shelf with snap points; the centred book faces forward. */
+function SwipeShelf() {
+  const scroller = useRef<HTMLUListElement>(null);
+  const [active, setActive] = useState(0);
+  useEffect(() => {
+    const root = scroller.current;
+    if (!root) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) setActive(Number((e.target as HTMLElement).dataset.index));
+        });
+      },
+      { root, threshold: 0.6 },
+    );
+    root.querySelectorAll("li").forEach((li) => io.observe(li));
+    return () => io.disconnect();
+  }, []);
+  return (
+    <div>
+      <ul ref={scroller} className="flex snap-x snap-mandatory gap-2 overflow-x-auto px-[18vw] pb-12 pt-6 [scrollbar-width:none] sm:px-[30vw]" aria-label="Books — swipe to browse">
+        {books.map((b, i) => (
+          <li key={b.id} data-index={i} className="w-[64vw] shrink-0 snap-center px-[5vw] sm:w-[40vw]">
+            <div style={{ "--ry": i === active ? "-8deg" : i < active ? "38deg" : "-38deg" } as React.CSSProperties} className={clsx("transition-[opacity,transform] duration-700", i === active ? "scale-100 opacity-100" : "scale-[0.84] opacity-60")}>
+              <Book book={b} priority={i === 0} sizes="60vw" />
+            </div>
+          </li>
+        ))}
+      </ul>
+      <div className="container-x">
+        <div className="mb-6 flex justify-center gap-1.5" aria-hidden>
+          {books.map((b, i) => (
+            <span key={b.id} className={clsx("h-1.5 rounded-full transition-all duration-500", i === active ? "w-8 bg-brand" : "w-1.5 bg-lilac")} />
+          ))}
+        </div>
+        <Detail index={active} />
+      </div>
+    </div>
+  );
+}
+
+export function BookLibrary() {
+  const reduce = useMediaQuery("(prefers-reduced-motion: reduce)");
+  return (
+    <section aria-labelledby="library-title" className="relative overflow-x-clip bg-white">
+      <div className="container-x pt-[var(--section-y)]">
         <SectionHeading
           id="library-title"
-          eyebrow="The UPSC learning universe"
+          eyebrow="The aspirant's bookshelf"
           title={
             <>
-              Seven books. <em className="text-gold-soft">One way of thinking.</em>
+              The books every aspirant knows. <span className="accent">Read the way toppers read them.</span>
             </>
           }
-          lede="Scroll through resources aspirants commonly rely on. Each one opens to the ideas that matter — and to how they connect."
+          lede="From Laxmikanth to Spectrum, these are the standard references of UPSC preparation. At Dakshina we teach you how to read them: for concepts, connections and answers."
         />
-        <p className="mt-6 max-w-2xl text-sm text-ivory/45">
-          Illustrative references. Covers shown are original designs, not publisher artwork; titles belong to their publishers. Always use the latest editions, and ask the academy for its own reading list.
-        </p>
       </div>
-
-      {!animated ? (
-        <StaticBookGrid />
-      ) : (
-        <div ref={wrap} className="relative" style={{ height: `${N * 115}svh` }}>
-          <div className="sticky top-0 flex h-[100svh] flex-col overflow-hidden md:grid md:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)]">
-            <div className="relative h-[46%] min-h-0 shrink-0 md:h-full">
-              <SceneCanvas
-                label={`3D library: ${book.title} by ${book.author} opens to reveal key concepts.`}
-                fallback={null}
-                camera={{ position: [0, 0.35, 3.4], fov: 36, near: 0.1, far: 30 }}
-                shadows
-                maxDpr={1.6}
-              >
-                <BookScene drive={drive} />
-              </SceneCanvas>
-              <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#0b1420] to-transparent md:hidden" />
-            </div>
-
-            <div
-              ref={panel}
-              className="relative flex min-h-0 flex-1 flex-col justify-center px-[var(--gutter)] pb-6 pt-2 md:py-[calc(var(--header-h)+1rem)] md:pl-4 md:pr-[var(--gutter)]"
-              aria-live="polite"
-            >
-              <div key={book.id} className="max-w-xl animate-[dl-in_0.6s_var(--ease-cinema)_both]">
-                <p className="font-mono text-[0.72rem] tracking-[0.16em] text-gold">
-                  {String(active + 1).padStart(2, "0")} / {String(N).padStart(2, "0")} · {book.subject.toUpperCase()}
-                </p>
-                <h3 className="mt-3 text-[clamp(1.6rem,1.1rem+2.4vw,3.2rem)] leading-[1.02]">{book.title}</h3>
-                <p className="mt-2 text-sm text-ivory/60">
-                  {book.author} <span className="text-ivory/30">·</span> {book.publisherNote}
-                </p>
-                <p className="mt-4 font-hand text-[clamp(1.3rem,1rem+1vw,1.8rem)] leading-snug text-gold-soft">&ldquo;{book.annotation}&rdquo;</p>
-                <ul className="mt-4 space-y-1.5 text-[0.95rem] text-ivory/80 md:mt-6 md:space-y-2.5">
-                  {book.concepts.map((c, i) => (
-                    <li
-                      key={c}
-                      className="flex gap-3 border-b border-ivory/10 pb-1.5 md:pb-2.5"
-                      style={{ opacity: `clamp(0.25, calc((var(--l, 1) - ${0.32 + i * 0.09}) * 8), 1)` }}
-                    >
-                      <span aria-hidden className="font-mono text-xs text-gold/80">{String(i + 1).padStart(2, "0")}</span>
-                      <span className="min-w-0">{c}</span>
-                    </li>
-                  ))}
-                </ul>
-                <SubjectVisual kind={book.visual} className="mt-6 hidden h-28 w-full max-w-sm text-gold/70 md:block" />
-              </div>
-
-              <nav aria-label="Jump to a book" className="mt-5 flex flex-wrap gap-1.5 md:mt-8">
-                {books.map((b, i) => (
-                  <button
-                    key={b.id}
-                    type="button"
-                    onClick={() => jumpTo(i)}
-                    aria-label={`${b.subject}: ${b.title}`}
-                    aria-current={i === active ? "step" : undefined}
-                    className={clsx(
-                      "tap h-2.5 rounded-full transition-all duration-500 md:h-3",
-                      i === active ? "w-10 bg-gold" : "w-2.5 bg-ivory/25 hover:bg-ivory/50 md:w-3",
-                    )}
-                  />
-                ))}
-              </nav>
-            </div>
-          </div>
-        </div>
-      )}
-
-      <details className="container-x pb-[var(--section-y)] pt-6 text-ivory/70">
-        <summary className="tap cursor-pointer font-mono text-xs uppercase tracking-[0.16em] text-gold">See every resource at a glance</summary>
-        <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {books.map((b) => (
-            <li key={b.id} className="rounded-xl p-5 ring-1 ring-ivory/10">
-              <p className="font-mono text-[0.68rem] text-gold">{b.subject}</p>
-              <p className="mt-1 font-serif text-step-1 text-ivory">{b.title}</p>
-              <p className="text-sm">{b.author}</p>
-            </li>
-          ))}
-        </ul>
-      </details>
+      {!reduce ? <RingShelf /> : <div className="pt-6"><SwipeShelf /></div>}
+      <p className="container-x pb-[var(--section-y)] pt-10 text-xs text-ink-soft">
+        Covers via Open Library, © their respective publishers, shown to identify commonly used titles. Always use the latest editions and ask the academy for its recommended list.
+      </p>
     </section>
   );
 }

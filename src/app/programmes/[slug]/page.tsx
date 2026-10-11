@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { ProgrammeDetail } from "@/components/programmes/ProgrammeDetail";
 import { getProgramme, programmes } from "@/data/programmes";
 import { pageMetadata } from "@/lib/seo";
+import { photos } from "@/data/media";
 
 export function generateStaticParams() {
   return programmes.filter((p) => p.slug !== "prelims-hacker").map((p) => ({ slug: p.slug }));
@@ -20,5 +21,5 @@ export default async function ProgrammePage({ params }: { params: Promise<{ slug
   if (slug === "prelims-hacker") redirect("/prelims-hacker");
   const p = getProgramme(slug);
   if (!p) notFound();
-  return <ProgrammeDetail p={p} />;
+  return <ProgrammeDetail p={p} photo={photos.lectureHall} />;
 }

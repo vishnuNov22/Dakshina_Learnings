@@ -11,6 +11,7 @@ import { buttonClass } from "@/components/ui/Button";
 
 export function SiteHeader({ phoneHref, phoneLabel }: { phoneHref: string | null; phoneLabel: string | null }) {
   const pathname = usePathname();
+  const overHero = pathname === "/";
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
@@ -32,6 +33,8 @@ export function SiteHeader({ phoneHref, phoneLabel }: { phoneHref: string | null
   }, []);
 
   useEffect(() => setOpen(false), [pathname]);
+  // the hero is light now, so the header always uses dark text; it's only transparent at the very top of home
+  const light = false;
 
   useEffect(() => {
     if (!open) return;
@@ -67,19 +70,19 @@ export function SiteHeader({ phoneHref, phoneLabel }: { phoneHref: string | null
 
   return (
     <>
-      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-gold focus:px-4 focus:py-2 focus:text-navy">
+      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-brand focus:px-4 focus:py-2 focus:text-white">
         Skip to content
       </a>
       <header
         className={clsx(
           "fixed inset-x-0 top-0 z-50 transition-[transform,background-color,box-shadow] duration-500 ease-[var(--ease-cinema)]",
           hidden && !open ? "-translate-y-full" : "translate-y-0",
-          scrolled || open || pathname.startsWith("/current-affairs") ? "bg-navy/85 shadow-[0_1px_0_rgba(245,240,230,0.08)] backdrop-blur-xl" : "bg-transparent",
+          scrolled || open || !overHero ? "bg-white/90 shadow-[0_1px_0_#e4daf1] backdrop-blur-xl" : "bg-transparent",
         )}
       >
         <div className="container-x flex h-[var(--header-h)] items-center justify-between gap-4">
           <Link href="/" aria-label="Dakshina Learnings — home" className="min-w-0 rounded-full">
-            <Logo size={40} />
+            <Logo size={42} tone={light ? "light" : "dark"} />
           </Link>
 
           <nav aria-label="Primary" className="hidden xl:block">
@@ -93,7 +96,7 @@ export function SiteHeader({ phoneHref, phoneLabel }: { phoneHref: string | null
                       aria-current={active ? "page" : undefined}
                       className={clsx(
                         "relative rounded-full px-3.5 py-2 text-[0.9rem] transition-colors",
-                        active ? "text-gold" : "text-ivory/75 hover:text-ivory",
+                        active ? (light ? "text-white" : "text-brand") : light ? "text-white/80 hover:text-white" : "text-ink-soft hover:text-brand",
                       )}
                     >
                       {item.label}
@@ -106,11 +109,11 @@ export function SiteHeader({ phoneHref, phoneLabel }: { phoneHref: string | null
 
           <div className="flex items-center gap-2">
             {phoneHref ? (
-              <a href={phoneHref} className="tap hidden items-center gap-2 rounded-full px-3 py-2 text-sm text-ivory/80 hover:text-ivory lg:inline-flex">
+              <a href={phoneHref} className={clsx("tap hidden items-center gap-2 rounded-full px-3 py-2 text-sm font-semibold lg:inline-flex", light ? "text-white/85 hover:text-white" : "text-ink-soft hover:text-brand")}>
                 <Phone size={15} aria-hidden /> {phoneLabel}
               </a>
             ) : null}
-            <Link href="/admissions" className={buttonClass("gold", "hidden !px-5 !py-2.5 text-sm sm:inline-flex")}>
+            <Link href="/admissions" className={buttonClass(light ? "white" : "brand", "hidden !px-5 !py-2.5 text-sm sm:inline-flex")}>
               Enquire <ArrowUpRight size={16} aria-hidden />
             </Link>
             <button
@@ -120,7 +123,7 @@ export function SiteHeader({ phoneHref, phoneLabel }: { phoneHref: string | null
               aria-expanded={open}
               aria-controls="mobile-menu"
               aria-label={open ? "Close menu" : "Open menu"}
-              className="tap grid h-11 w-11 place-items-center rounded-full ring-1 ring-ivory/25 xl:hidden"
+              className={clsx("tap grid h-11 w-11 place-items-center rounded-full ring-1 xl:hidden", light ? "text-white ring-white/40" : "text-brand-deep ring-line")}
             >
               {open ? <X size={20} /> : <Menu size={20} />}
             </button>
@@ -135,31 +138,31 @@ export function SiteHeader({ phoneHref, phoneLabel }: { phoneHref: string | null
         aria-modal="true"
         aria-label="Site menu"
         hidden={!open}
-        className="fixed inset-0 z-40 overflow-y-auto bg-navy pt-[var(--header-h)] xl:hidden"
+        className="fixed inset-0 z-40 overflow-y-auto bg-white pt-[var(--header-h)] xl:hidden"
       >
         <nav aria-label="Mobile" className="container-x flex min-h-full flex-col pb-10 pt-6">
           <ul className="flex flex-col">
             {[{ label: "Home", href: "/" }, ...primaryNav, { label: "Faculty", href: "/faculty" }, { label: "Resources", href: "/resources" }, { label: "Contact", href: "/contact" }].map(
               (item, i) => (
-                <li key={item.href} className="border-b border-ivory/10">
+                <li key={item.href} className="border-b border-line">
                   <Link
                     href={item.href}
-                    className="flex items-baseline justify-between gap-4 py-4 font-serif text-[clamp(1.6rem,7vw,2.4rem)] leading-tight"
+                    className="flex items-baseline justify-between gap-4 py-4 font-serif text-[clamp(1.6rem,7vw,2.4rem)] leading-tight text-ink hover:text-brand"
                     aria-current={pathname === item.href ? "page" : undefined}
                   >
                     {item.label}
-                    <span className="font-mono text-xs text-gold/80">{String(i + 1).padStart(2, "0")}</span>
+                    <span className="text-xs font-semibold text-brand">{String(i + 1).padStart(2, "0")}</span>
                   </Link>
                 </li>
               ),
             )}
           </ul>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link href="/admissions" className={buttonClass("gold", "w-full sm:w-auto")}>
+            <Link href="/admissions" className={buttonClass("brand", "w-full sm:w-auto")}>
               Begin your enquiry
             </Link>
             {phoneHref ? (
-              <a href={phoneHref} className={buttonClass("ghost", "w-full sm:w-auto")}>
+              <a href={phoneHref} className={buttonClass("outline", "w-full sm:w-auto")}>
                 <Phone size={16} aria-hidden /> Call the academy
               </a>
             ) : null}

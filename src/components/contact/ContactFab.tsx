@@ -45,7 +45,7 @@ export function ContactFab({ whatsapp, phone }: { whatsapp: string | null; phone
 
   const actions = [
     wa && { href: wa, label: "WhatsApp", icon: <MessageCircle size={20} aria-hidden />, cls: "bg-[#25D366] text-white", external: true },
-    tel && { href: tel, label: "Call now", icon: <Phone size={19} aria-hidden />, cls: "bg-gold text-navy", external: false },
+    tel && { href: tel, label: "Call now", icon: <Phone size={19} aria-hidden />, cls: "bg-brand text-white", external: false },
     { href: instagram.profile, label: "Instagram", icon: <Instagram size={20} aria-hidden />, cls: "bg-[linear-gradient(45deg,#f9a03f,#e1306c_45%,#833ab4)] text-white", external: true },
   ].filter(Boolean) as { href: string; label: string; icon: React.ReactNode; cls: string; external: boolean }[];
 
@@ -62,7 +62,7 @@ export function ContactFab({ whatsapp, phone }: { whatsapp: string | null; phone
               href={a.href}
               tabIndex={open ? 0 : -1}
               {...(a.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-              className="tap flex items-center gap-3 rounded-full bg-navy/90 py-1.5 pl-4 pr-1.5 text-sm font-semibold text-ivory shadow-[0_10px_30px_-10px_rgba(0,0,0,0.6)] ring-1 ring-ivory/10 backdrop-blur"
+              className="tap flex items-center gap-3 rounded-full bg-white py-1.5 pl-4 pr-1.5 text-sm font-semibold text-brand-deep shadow-[0_14px_34px_-14px_rgba(29,11,54,0.55)] ring-1 ring-line"
             >
               {a.label}
               <span className={clsx("grid h-10 w-10 place-items-center rounded-full", a.cls)}>{a.icon}</span>
@@ -78,7 +78,7 @@ export function ContactFab({ whatsapp, phone }: { whatsapp: string | null; phone
         aria-label={open ? "Close contact options" : "Contact the academy: WhatsApp, call or Instagram"}
         className={clsx(
           "relative grid h-14 w-14 place-items-center rounded-full text-white shadow-[0_12px_30px_-8px_rgba(0,0,0,0.6)] transition-[transform,background-color] duration-300 hover:scale-105",
-          open ? "bg-navy ring-1 ring-ivory/20" : wa ? "bg-[#25D366]" : "bg-gold text-navy",
+          open ? "bg-brand-dark" : wa ? "bg-[#25D366]" : "bg-brand",
         )}
       >
         {open ? <X size={22} /> : wa ? <WaIcon /> : <Phone size={22} />}

@@ -1,28 +1,24 @@
 import Link from "next/link";
-import clsx from "clsx";
 import { ArrowUpRight } from "lucide-react";
 import { programmeHref, type Programme } from "@/data/programmes";
 
-const accent = { gold: "bg-gold", blue: "bg-blue", red: "bg-red" } as const;
-
-export function ProgrammeCard({ p, index, tone = "dark" }: { p: Programme; index: number; tone?: "dark" | "light" }) {
+export function ProgrammeCard({ p, index }: { p: Programme; index: number }) {
   return (
     <Link
       href={programmeHref(p.slug)}
-      className={clsx(
-        "group relative flex h-full min-w-0 flex-col overflow-hidden rounded-2xl p-6 ring-1 transition-[transform,box-shadow,background-color] duration-500 ease-[var(--ease-cinema)] hover:-translate-y-1 sm:p-8",
-        tone === "dark" ? "bg-ivory/[0.035] ring-ivory/10 hover:bg-ivory/[0.07] hover:ring-gold/50" : "bg-white/70 ring-ink/10 hover:bg-white hover:shadow-xl",
-      )}
+      className="group relative flex h-full min-w-0 flex-col overflow-hidden rounded-[28px] bg-white p-7 ring-1 ring-line transition-[transform,box-shadow] duration-700 ease-[var(--ease-cinema)] hover:-translate-y-1.5 hover:shadow-[0_40px_70px_-40px_rgba(90,34,150,0.55)] sm:p-9"
     >
-      <span aria-hidden className={clsx("absolute left-0 top-0 h-1 w-16", accent[p.accent])} />
-      <div className="flex items-start justify-between gap-4">
-        <p className={clsx("font-mono text-xs", tone === "dark" ? "text-gold" : "text-red")}>{String(index + 1).padStart(2, "0")}</p>
-        <ArrowUpRight size={20} aria-hidden className="shrink-0 opacity-50 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:opacity-100" />
+      <span aria-hidden className="absolute inset-x-0 bottom-0 h-0 bg-brand transition-[height] duration-700 ease-[var(--ease-cinema)] group-hover:h-full" />
+      <div className="relative flex items-start justify-between gap-4">
+        <span className="font-serif text-3xl italic text-brand transition-colors duration-500 group-hover:text-white">{String(index + 1).padStart(2, "0")}</span>
+        <span className="grid h-11 w-11 place-items-center rounded-full bg-mist text-brand transition-all duration-500 group-hover:rotate-45 group-hover:bg-lilac">
+          <ArrowUpRight size={18} aria-hidden />
+        </span>
       </div>
-      <p className={clsx("mt-8 font-mono text-[0.68rem] uppercase tracking-[0.16em]", tone === "dark" ? "text-ivory/50" : "text-ink/50")}>{p.kicker}</p>
-      <h3 className="mt-2 text-step-3">{p.shortTitle}</h3>
-      <p className={clsx("mt-4 text-[0.95rem]", tone === "dark" ? "text-ivory/70" : "text-ink/70")}>{p.summary}</p>
-      <span className={clsx("mt-auto pt-8 text-sm font-semibold underline-offset-4 group-hover:underline", tone === "dark" ? "text-ivory" : "text-ink")}>View programme</span>
+      <p className="eyebrow relative mt-10 text-brand transition-colors duration-500 group-hover:text-white/80">{p.kicker}</p>
+      <h3 className="relative mt-3 text-step-3 text-ink transition-colors duration-500 group-hover:text-white">{p.shortTitle}</h3>
+      <p className="relative mt-4 text-[0.95rem] text-ink-soft transition-colors duration-500 group-hover:text-white/85">{p.summary}</p>
+      <span className="relative mt-auto pt-10 text-sm font-semibold text-brand transition-colors duration-500 group-hover:text-white">View programme →</span>
     </Link>
   );
 }
