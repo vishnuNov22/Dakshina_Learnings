@@ -58,7 +58,9 @@ export function SceneShell({
   const [dpr, setDpr] = useState(1.5);
   const [lost, setLost] = useState(false);
   return (
-    <div ref={ref} role="img" aria-label={label} className={clsx("relative", className)}>
+    // Callers usually pass "absolute inset-0"; only fall back to "relative" when no position is given.
+    // (Having both classes lets "relative" win and the stage collapses to 0px height.)
+    <div ref={ref} role="img" aria-label={label} className={clsx(!/(^|\s)(absolute|fixed)(\s|$)/.test(className ?? "") && "relative h-full w-full", className)}>
       {webgl === false || lost ? (
         fallback
       ) : webgl ? (

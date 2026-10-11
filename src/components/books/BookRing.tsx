@@ -60,7 +60,7 @@ export default function BookRing({ drive }: { drive: MutableRefObject<RingDrive>
       {books.map((b, i) => (
         <RingBook key={b.id} index={i} ring={ring} />
       ))}
-      <ContactShadows position={[0, -1.05, -1]} opacity={0.35} scale={12} blur={2.4} far={3} resolution={512} color="#2e1155" />
+      <ContactShadows position={[0, -1.2, -1.2]} opacity={0.18} scale={18} blur={3.2} far={2.4} resolution={512} color="#2e1155" />
     </>
   );
 }

@@ -47,11 +47,12 @@ export function Hero() {
       const fades = gsap.utils.toArray<HTMLElement>("[data-reveal-fade]", el);
       if (reduce) {
         d.intro = 1;
-        gsap.set(lines, { yPercent: 0, animation: "none" });
+        gsap.set(lines, { yPercent: 0, y: 0, animation: "none" });
         gsap.set(fades, { opacity: 1, animation: "none" });
         return;
       }
-      gsap.set(lines, { yPercent: 110, animation: "none" });
+      // y: 0 clears the CSS pre-hide offset; otherwise GSAP keeps it as a fixed px offset and the lines never arrive
+      gsap.set(lines, { yPercent: 110, y: 0, animation: "none" });
       gsap.set(fades, { opacity: 0, y: 18, animation: "none" });
       gsap
         .timeline({ defaults: { ease: "expo.out" }, delay: (window as Window & { __dlIntro?: boolean }).__dlIntro ? 1.35 : 0.2 })
@@ -87,7 +88,7 @@ export function Hero() {
       </div>
 
       <div className="container-x grid min-h-[inherit] items-center gap-2 pt-[var(--header-h)] lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:gap-6">
-        <div className="relative order-1 h-[46svh] min-h-[300px] lg:order-2 lg:h-[min(86svh,860px)]">
+        <div className="relative order-1 h-[46svh] min-h-[300px] lg:order-2 lg:h-[min(calc(100svh_-_var(--header-h)),860px)]">
           <SceneShell
             className="absolute inset-0"
             label="Six standard UPSC books float in a bright studio and turn as you scroll."
@@ -103,7 +104,7 @@ export function Hero() {
             <span aria-hidden className="h-px w-10 bg-current" />
             Civil Services Academy · Thiruvananthapuram
           </p>
-          <h1 id="hero-title" className="font-serif text-[clamp(2.8rem,1.4rem+5.4vw,6.6rem)] font-medium leading-[0.98] tracking-[-0.03em] text-ink">
+          <h1 id="hero-title" className="font-serif text-[clamp(2.6rem,min(1.4rem+5vw,10.5svh),6.6rem)] font-medium leading-[0.98] tracking-[-0.03em] text-ink">
             <span data-reveal-line><span>Every Officer</span></span>
             <span data-reveal-line><span>Begins With</span></span>
             <span data-reveal-line>
@@ -112,10 +113,10 @@ export function Hero() {
               </span>
             </span>
           </h1>
-          <p data-reveal-fade className="mt-8 max-w-[34rem] text-step-1 text-ink-soft">
+          <p data-reveal-fade className="mt-6 max-w-[34rem] text-step-1 text-ink-soft lg:mt-[min(2rem,3svh)]">
             Build the knowledge, analytical thinking, and discipline required for the journey towards India&rsquo;s Civil Services.
           </p>
-          <div data-reveal-fade className="mt-10 flex flex-col gap-3 xs:flex-row xs:flex-wrap">
+          <div data-reveal-fade className="mt-8 flex flex-col gap-3 xs:flex-row xs:flex-wrap lg:mt-[min(2.5rem,4svh)]">
             <a href="#journey" className={buttonClass("brand")}>
               Explore the Journey <ArrowDown size={17} aria-hidden />
             </a>
@@ -123,7 +124,7 @@ export function Hero() {
               Explore Our Programmes <ArrowRight size={17} aria-hidden />
             </Link>
           </div>
-          <ul data-reveal-fade className="mt-12 flex flex-wrap gap-x-8 gap-y-3 border-t border-line pt-6">
+          <ul data-reveal-fade className="mt-10 flex flex-wrap gap-x-8 gap-y-3 border-t border-line pt-5 lg:mt-[min(3rem,5svh)]">
             {pillars.map((p, i) => (
               <li key={p} className="flex items-center gap-3 text-sm font-semibold text-ink">
                 <span className="font-serif text-lg italic text-brand">0{i + 1}</span>

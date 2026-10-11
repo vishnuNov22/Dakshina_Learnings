@@ -66,7 +66,7 @@ function Rig({ drive, compact }: { drive: MutableRefObject<HeroDrive>; compact: 
     const aspect = size.width / Math.max(1, size.height);
     const z = (aspect < 0.9 ? 11.5 : aspect < 1.3 ? 10 : 9) - scroll * 1.2;
     camera.position.lerp(v.set(0, compact ? 0.2 : 0, z), 0.08);
-    camera.lookAt(0, 0.1, 0);
+    camera.lookAt(0, -0.15, 0);
   });
   return <group ref={group}>{LAYOUT.map((_, i) => <FlyingBook key={i} index={i} drive={drive} compact={compact} />)}</group>;
 }

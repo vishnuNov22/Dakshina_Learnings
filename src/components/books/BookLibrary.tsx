@@ -81,7 +81,7 @@ function RingShelf() {
             <BookRing drive={drive} />
           </SceneShell>
         </div>
-        <div className="relative order-2 min-h-0 flex-1 overflow-hidden px-[var(--gutter)] lg:order-1 lg:w-[44%] lg:flex-none lg:pl-[max(var(--gutter),calc((100vw-var(--container))/2+var(--gutter)))] lg:pr-6">
+        <div className="relative order-2 min-h-0 flex-1 overflow-hidden px-[var(--gutter)] lg:order-1 lg:w-[44%] lg:flex-none lg:pl-[max(var(--gutter),calc((100vw_-_var(--container))/2_+_var(--gutter)))] lg:pr-6">
           <Detail index={active} />
           <nav aria-label="Choose a book" className="mt-6 hidden flex-wrap gap-2 sm:flex lg:mt-10">
             {books.map((b, i) => (
