@@ -18,6 +18,7 @@ import {
 } from "@/components/home/Sections";
 import { JsonLd } from "@/components/ui/JsonLd";
 import { VideoBand } from "@/components/home/VideoBand";
+import { TeamSection, TopperSection } from "@/components/home/AcademyPhotos";
 import { faqJsonLd } from "@/lib/seo";
 import { homeFaqs } from "@/data/faq";
 
@@ -26,7 +27,9 @@ export default function HomePage() {
     <>
       <Hero />
       <SubjectBand />
+      <TeamSection />
       <AcademyIntro />
+      <TopperSection />
       <BookLibrary />
       <VideoBand />
       <ActivityLearning />

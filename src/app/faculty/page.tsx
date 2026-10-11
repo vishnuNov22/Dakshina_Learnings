@@ -14,7 +14,8 @@ export default function FacultyPage() {
   return (
     <>
       <PageHeader
-        photo={photos.focusedStudent}
+        photoClassName="aspect-[1024/500] w-full"
+        photo={photos.team}
         eyebrow="Faculty & mentorship"
         title={<>The people behind <span className="accent">your preparation.</span></>}
         lede="Teaching and mentoring at Dakshina focus on clarity of concepts, honest feedback and a sustainable plan."

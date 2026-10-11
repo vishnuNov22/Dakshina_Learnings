@@ -10,6 +10,7 @@ export function PageHeader({
   lede,
   crumbs,
   photo,
+  photoClassName,
   children,
 }: {
   eyebrow: string;
@@ -17,6 +18,8 @@ export function PageHeader({
   lede?: ReactNode;
   crumbs?: { label: string; href: string }[];
   photo?: PhotoData;
+  /** frame shape; defaults to a tall editorial crop. Pass the photo's own ratio for group shots. */
+  photoClassName?: string;
   children?: ReactNode;
 }) {
   return (
@@ -48,7 +51,7 @@ export function PageHeader({
             {lede ? <p className="mt-8 max-w-2xl text-step-1 text-ink-soft">{lede}</p> : null}
             {children ? <div className="mt-10">{children}</div> : null}
           </div>
-          {photo ? <Photo photo={photo} priority sizes="(min-width: 1024px) 45vw, 100vw" className="aspect-[4/3] w-full lg:aspect-[5/6]" /> : null}
+          {photo ? <Photo photo={photo} priority sizes="(min-width: 1024px) 45vw, 100vw" className={photoClassName ?? "aspect-[4/3] w-full lg:aspect-[5/6]"} /> : null}
         </div>
       </div>
     </header>

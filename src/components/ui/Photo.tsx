@@ -49,7 +49,8 @@ export function Photo({
       viewport={{ once: true, margin: "0px 0px -10% 0px" }}
       transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
     >
-      <motion.div className="absolute inset-[-8%]" style={parallax && !reduce ? { y } : undefined}>
+      {/* overscan only when parallax moves the image, so group photos keep their edges */}
+      <motion.div className={parallax ? "absolute inset-[-8%]" : "absolute inset-0"} style={parallax && !reduce ? { y } : undefined}>
         <motion.div
           className="absolute inset-0"
           initial={animate ? { scale: 1.18 } : false}

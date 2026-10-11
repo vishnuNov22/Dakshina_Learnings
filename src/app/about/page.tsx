@@ -23,7 +23,8 @@ export default function AboutPage() {
   return (
     <>
       <PageHeader
-        photo={photos.studentsBooks}
+        photoClassName="aspect-[1024/500] w-full"
+        photo={photos.team}
         eyebrow="About the academy"
         title={<>Where aspirants learn to <span className="accent">think like officers.</span></>}
         lede="Dakshina Learnings is a civil services academy in Thiruvananthapuram, Kerala, dedicated to UPSC Civil Services Examination preparation."

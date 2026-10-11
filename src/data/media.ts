@@ -29,6 +29,9 @@ export const photos = {
   writingDesk: { src: u("1434030216411-0b793f4b4173"), alt: "Writing notes at a wooden desk beside a coffee mug", width: 4000, height: 2667, focus: "50% 50%" },
   indiaGate: { src: u("1705927122615-02dcef3b1465"), alt: "India Gate in New Delhi against a clear sky", width: 4000, height: 6000, focus: "50% 40%" },
   indiaGateDusk: { src: u("1587474260584-136574528ed5"), alt: "India Gate at dusk under a pink and purple sky", width: 4000, height: 2667, focus: "50% 50%" },
+  /** The academy's own photographs */
+  team: { src: "/images/dakshina-team.jpg", alt: "The Dakshina Learnings team in academy uniform, with the tagline Create your future with purpose", width: 1024, height: 500, focus: "50% 45%" },
+  topper: { src: "/images/dakshina-topper.jpg", alt: "Civil Services topper Sonnet Jose with aspirants of Dakshina Learnings", width: 1500, height: 1334, focus: "50% 50%" },
   portrait: { src: u("1637589308599-3478cc55510d"), alt: "", width: 3000, height: 2000, focus: "52% 22%" },
 } satisfies Record<string, Photo>;
 

@@ -13,7 +13,8 @@ export default function ResultsPage() {
   return (
     <>
       <PageHeader
-        photo={photos.readingStudent}
+        photoClassName="aspect-[1500/1334] w-full"
+        photo={photos.topper}
         eyebrow="Results & experiences"
         title={<>Progress, <span className="accent">told honestly.</span></>}
         lede="We share only results and experiences that are verified and published with each student's consent. No institute can guarantee selection."
